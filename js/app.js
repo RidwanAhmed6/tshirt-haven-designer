@@ -659,9 +659,47 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
-      // Draw content on canvas
+      function drawCanvas() {
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
+
+      if (!context) {
+        console.error('Canvas context not found');
+        return;
+      }
+
+      // Clear canvas
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw blue rectangle for testing
       context.fillStyle = 'blue';
       context.fillRect(10, 10, 200, 200);
+
+      // Optional: Draw additional elements
+      context.fillStyle = 'red';
+      context.fillRect(50, 50, 100, 100);
+
+      console.log('Canvas Content:', canvas.toDataURL());
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      drawCanvas();
+
+      document.getElementById('download-image').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        var canvas = document.getElementById('canvas');
+        var dataURL = canvas.toDataURL();
+
+        console.log('Canvas Data URL:', dataURL);
+
+        var previewImage = document.getElementById('customizedTshirtPreview');
+        previewImage.src = dataURL;
+
+        var orderFormModal = new bootstrap.Modal(document.getElementById('orderFormModal'));
+        orderFormModal.show();
+      });
+    });
 
       // Optional: Add additional drawing
       context.fillStyle = 'red';
