@@ -602,7 +602,7 @@ $("#tshirt-add-to-cart").on("click", function () {
 });
 
 
-document.getElementById('download-image').addEventListener('click', function() {
+document.getElementById('design-download').addEventListener('click', function() {
   // Assuming you have a canvas element with id 'canvas'
   const canvas = document.getElementById('canvas');
   if (canvas) {
@@ -627,7 +627,7 @@ document.getElementById('download-image').addEventListener('click', function() {
         });
 
         // Send Order Button Functionality
-        document.getElementById('sendOrderButton').addEventListener('click', function () {
+        document.getElementById('openShippingDetailsModal').addEventListener('click', function () {
             const designImage = document.getElementById('frontImage').src;
             const quantity = document.getElementById('quantityInput').value;
             const name = document.getElementById('nameInput').value;
