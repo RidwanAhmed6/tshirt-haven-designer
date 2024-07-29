@@ -648,3 +648,36 @@ document.getElementById('orderForm').addEventListener('submit', function (event)
     console.error('Error:', error);
   });
 });
+document.addEventListener('DOMContentLoaded', function() {
+      var downloadButton = document.getElementById('download-image');
+      var canvas = document.getElementById('canvas');
+      var previewImage = document.getElementById('customizedTshirtPreview');
+
+      if (!canvas || !previewImage) {
+        console.error('Required elements not found');
+        return;
+      }
+
+      var context = canvas.getContext('2d');
+      if (!context) {
+        console.error('Canvas context not found');
+        return;
+      }
+
+      // Example drawing on the canvas
+      context.fillStyle = 'blue';
+      context.fillRect(10, 10, 200, 200);
+
+      downloadButton.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        // Check if canvas has content
+        if (canvas.width > 0 && canvas.height > 0) {
+          previewImage.src = canvas.toDataURL();
+          var orderFormModal = new bootstrap.Modal(document.getElementById('orderFormModal'));
+          orderFormModal.show();
+        } else {
+          console.error('Canvas is empty');
+        }
+      });
+    });
