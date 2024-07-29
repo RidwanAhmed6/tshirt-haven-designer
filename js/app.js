@@ -616,59 +616,48 @@ document.getElementById('download-image').addEventListener('click', function() {
     alert('No canvas element found!');
   }
 });
-document.getElementById('tshirt-add-to-cart').addEventListener('click', function () {
-  // Dynamically set design image in the modal
-  const designImage = document.getElementById('frontImage').src;
-  document.getElementById('designImageContainer').innerHTML = `<img src="${designImage}" class="img-fluid" alt="Design Image">`;
+// Download Design Button Functionality
+        document.getElementById('design-download').addEventListener('click', function () {
+            const canvas = document.querySelector('#canvas');
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'tshirt_design.png';
+            link.click();
+        });
 
-  // Show the shipping details modal
-  new bootstrap.Modal(document.getElementById('shippingDetailsModal')).show();
-});
+        // Send Order Button Functionality
+        document.getElementById('sendOrderButton').addEventListener('click', function () {
+            const designImage = document.getElementById('frontImage').src;
+            const quantity = document.getElementById('quantityInput').value;
+            const name = document.getElementById('nameInput').value;
+            const mobile = document.getElementById('mobileInput').value;
+            const address = document.getElementById('addressInput').value;
+            const note = document.getElementById('noteInput').value;
 
-document.getElementById('sendOrderButton').addEventListener('click', function () {
-  // Collect form data
-  const designImage = document.getElementById('frontImage').src;
-  const uploadedPhotos = document.getElementById('file-select').files;
-  const textInput = document.getElementById('textInput').value;
-  const quantity = document.getElementById('quantityInput').value;
-  const name = document.getElementById('nameInput').value;
-  const mobile = document.getElementById('mobileInput').value;
-  const address = document.getElementById('addressInput').value;
-  const note = document.getElementById('noteInput').value;
+            const formData = new FormData();
+            formData.append('entry.1234567890', designImage); // Replace with your Google Form field ID for design image
+            formData.append('entry.0987654321', quantity); // Replace with your Google Form field ID for quantity
+            formData.append('entry.1112131415', name); // Replace with your Google Form field ID for name
+            formData.append('entry.1213141516', mobile); // Replace with your Google Form field ID for mobile
+            formData.append('entry.1314151617', address); // Replace with your Google Form field ID for address
+            formData.append('entry.1415161718', note); // Replace with your Google Form field ID for note
 
-  // Prepare form data
-  const formData = new FormData();
-  formData.append('designImage', designImage);
-  formData.append('textInput', textInput);
-  formData.append('quantity', quantity);
-  formData.append('name', name);
-  formData.append('mobile', mobile);
-  formData.append('address', address);
-  formData.append('note', note);
-  for (const file of uploadedPhotos) {
-    formData.append('uploadedPhotos[]', file);
-  }
-
-  // Send the data to the server
-  fetch('tshirt-haven-designer/send_email.php', {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      alert('Order sent successfully!');
-      // Hide the modal
-      bootstrap.Modal.getInstance(document.getElementById('shippingDetailsModal')).hide();
-    } else {
-      alert('Error sending order.');
-    }
-  })
-  .catch(error => {
-    console.error('Error sending order:', error);
-    alert('Error sending order.');
-  });
-});
-
+            fetch('https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Order sent successfully!');
+                    bootstrap.Modal.getInstance(document.getElementById('shippingDetailsModal')).hide();
+                } else {
+                    throw new Error('Failed to send order');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error sending order.');
+            });
+        });
 
 
