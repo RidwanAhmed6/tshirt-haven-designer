@@ -1,234 +1,336 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"
-    />
-    <title>t-shirt designer</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-    />
-    <link href="./style/style.css" rel="stylesheet" />
-    <link href="./style/desktop.css" rel="stylesheet" />
-  </head>
-
-  <body>
-    <header class="header">
-      <div class="headerBox logo" style="cursor: pointer">
-        <span class="clickLogo"><b>Logo</b></span>
-      </div>
-      <div class="headerBox exit" style="cursor: pointer">
-        <div class="exitText"><b>Exit</b></div>
-        <div class="exitImage"><span class="exitCross"></span></div>
-      </div>
-    </header>
-
-    <div class="container-fluid">
-      <div class="row">
-        <div
-          class="btn-group col-lg-2 col-md-12"
-          role="group"
-          aria-label="Basic example"
-          id="editorButtons"
-        >
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#colorModal"
-            id="color"
-          >
-            <i class="fas fa-palette"></i><br />
-          </button>
-          <!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" id="add"><i class="fas fa-plus"></i> / <i class="far fa-image"></i><br />Add</button> -->
-          <button class="btn btn-primary">
-            <label id="uploadFromPC"
-              ><i class="fas fa-images"></i>
-              <input
-                type="file"
-                id="file-select"
-                name="file-select"
-                class="fileSelector"
-                accept="image/jpeg"
-              />
-            </label>
-          </button>
-          <button
-            class="btn btn-primary"
-            id="addingText"
-            data-bs-toggle="modal"
-            data-bs-target="#editorTextModal"
-          >
-            <i class="bi bi-file-earmark-font"></i>
-          </button>
-          <button type="button" class="btn btn-primary" id="rotate">
-            <i class="fas fa-sync-alt"></i><br />
-          </button>
-          <button type="button" class="btn btn-primary" id="delete">
-            <i class="fas fa-trash"></i><br />
-          </button>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T-Shirt Design Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
+    <style>
+        .color-preview {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+        .konvajs-content {
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <button id="rotate" class="btn btn-primary">Rotate</button>
+            <button id="color" class="btn btn-secondary">Change T-Shirt Color</button>
+            <button id="addingText" class="btn btn-success">Add Text</button>
+            <input type="file" id="file-select" class="btn btn-info" accept="image/*">
+            <button id="delete" class="btn btn-danger">Clear Canvas</button>
+            <button id="tshirt-add-to-cart" class="btn btn-warning">Add to Cart</button>
+            <button id="download-image" class="btn btn-dark">Download Image</button>
         </div>
-
-        <section id="editorImage" class="col-lg-8 col-md-6 col-sm-6">
-          <img
-            class="img-fluid frontImage"
-            id="frontImage"
-            src="./img/crew_front.png"
-            alt=""
-          />
-          <div id="preview"></div>
-          <!-- <canvas id="canvas" width="230" height="530" ></canvas> -->
-          <img
-            class="img-fluid backImage"
-            src="./img/crew_back.png"
-            alt=""
-            style="display: none"
-          />
-        </section>
-<button type="button" class="btn btn-info footerBut" id="download-image">
-  Download Image
-</button>
-
-        <footer class="col-lg-2 col-md-12">
-          <!-- <button type="button" class="btn btn-info footerBut" id="upload-button" onclick="openUpload()"> Upload Images </button> -->
-          <button
-            type="button"
-            class="btn btn-info footerBut"
-            id="tshirt-add-to-cart"
-          >
-            Add to basket
-          </button>
-        </footer>
-      </div>
-    </div>
-
-    <!-- COLOR PICKER -->
-    <div
-      class="modal fade"
-      id="colorModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Choose a color</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body" id="colorDrawer">
-            <!-- ADD COLORS HERE -->
-          </div>
+        <div class="col-md-6">
+            <div id="preview"></div>
         </div>
-      </div>
     </div>
+</div>
 
-    <!--EDITOR TEXT-->
-    <div
-      class="modal fade"
-      id="editorTextModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabelText"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
+<!-- Modal for Color Selection -->
+<div class="modal" id="colorModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title text-center" id="exampleModalLabelText">
-              Editor Text
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body" id="editorTextDrawer">
-            <div class="text-center">
-              <button type="button" class="btn btn-primary" id="drawText">
-                <i class="fas fa-plus"> Add Text</i>
-              </button>
-              <div id="fontColorPickerWrap">
-                <br />
-                <br />
-                <h2 style="display: none">Choose a color</h2>
-                <br />
-                <div id="fontColorPicker"></div>
-                <br />
-                <!--FONT COLORS HERE-->
+            <div class="modal-header">
+                <h5 class="modal-title">Select Color</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="colorDrawer">
+                <!-- Color options will be injected here -->
+            </div>
+        </div>
+    </div>
+</div>
 
-                <div id="fontStyle">
-                  <h2>Font style</h2>
-                  <select
-                    class="form-select"
-                    id="chooseFontStyle"
-                    aria-label="Default select example"
-                  >
-                    <option selected>Normal</option>
+<!-- Modal for Text Addition -->
+<div class="modal" id="editorTextModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Text</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea id="textContent" class="form-control" placeholder="Type your text here"></textarea>
+                <select id="chooseFontStyle" class="form-control mt-2">
+                    <option value="normal">Normal</option>
                     <option value="bold">Bold</option>
                     <option value="italic">Italic</option>
-                  </select>
-                </div>
-
-                <!--FONT FAMILY-->
-
-                <div id="fontFamily">
-                  <h2>Font Family</h2>
-                  <select
-                    class="form-select"
-                    id="chooseFontFamily"
-                    aria-label="Default select example"
-                  >
-                    <option value="Montserrat" selected>Montserrat</option>
-                    <option value="Sans Serif">Sans Serif</option>
+                </select>
+                <select id="chooseFontFamily" class="form-control mt-2">
                     <option value="Arial">Arial</option>
-                    <option value="Comic Sans MS">Comic Sans MS</option>
-                    <option value="Times New Roman">Times New Roman</option>
-                    <option value="Courier New">Courier New</option>
                     <option value="Verdana">Verdana</option>
-                    <option value="Trebuchet MS">Trebuchet MS</option>
-                    <option value="Arial Black">Arial Black</option>
-                    <option value="Impact">Impact</option>
-                    <option value="Bookman">Bookman</option>
-                    <option value="Garamond">Garamond</option>
-                    <option value="Palatino">Palatino</option>
-                    <option value="Georgia">Georgia</option>
-                  </select>
-                </div>
-              </div>
+                    <option value="Times New Roman">Times New Roman</option>
+                </select>
             </div>
-          </div>
+            <div class="modal-footer">
+                <button type="button" id="drawText" class="btn btn-primary">Add Text</button>
+            </div>
         </div>
-      </div>
     </div>
+</div>
 
-    <div class="spinner-grow" role="status" style="display: none">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/konva@8.3.9/konva.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/image-conversion@0.2.4/dist/image-conversion.min.js"></script>
+<script>
+    let tShirtOrTextColor = "";
+    const colors = `
+        <ul class="list-group">
+            <li class="list-group-item color-preview" title="White" style="background-color:#ffffff;"></li>
+            <li class="list-group-item color-preview" title="Dark Heather" style="background-color:#616161;"></li>
+            <!-- Add other color options here -->
+        </ul>
+    `;
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/konva@8.1.1/konva.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/WangYuLue/image-conversion/build/conversion.js"></script>
-    <script src="./js/app.js"></script>
-  </body>
+    function drawColors() {
+        return colors;
+    }
+
+    function update(activeAnchor) {
+        let group = activeAnchor.getParent();
+        let topLeft = group.get(".topLeft")[0];
+        let topRight = group.get(".topRight")[0];
+        let bottomRight = group.get(".bottomRight")[0];
+        let bottomLeft = group.get(".bottomLeft")[0];
+        let image = group.get("Image")[0];
+
+        let anchorX = activeAnchor.getX();
+        let anchorY = activeAnchor.getY();
+
+        switch (activeAnchor.getName()) {
+            case "topLeft":
+                topRight.setY(anchorY);
+                bottomLeft.setX(anchorX);
+                break;
+            case "topRight":
+                topLeft.setY(anchorY);
+                bottomRight.setX(anchorX);
+                break;
+            case "bottomRight":
+                bottomLeft.setY(anchorY);
+                topRight.setX(anchorX);
+                break;
+            case "bottomLeft":
+                bottomRight.setY(anchorY);
+                topLeft.setX(anchorX);
+                break;
+        }
+
+        image.position(topLeft.position());
+        let width = topRight.getX() - topLeft.getX();
+        let height = bottomLeft.getY() - topLeft.getY();
+        if (width && height) {
+            image.width(width);
+            image.height(height);
+        }
+    }
+
+    function addAnchor(group, x, y, name) {
+        let stage = group.getStage();
+        let layer = group.getLayer();
+
+        let anchor = new Konva.Circle({
+            x: x,
+            y: y,
+            stroke: "#666",
+            fill: "#ddd",
+            strokeWidth: 2,
+            radius: 5,
+            name: name,
+            draggable: true,
+            dragOnTop: false,
+        });
+
+        anchor.on("dragmove", function () {
+            update(this);
+            layer.draw();
+        });
+        anchor.on("mousedown touchstart", function () {
+            group.setDraggable(false);
+            this.moveToTop();
+        });
+        anchor.on("dragend", function () {
+            group.setDraggable(true);
+            layer.draw();
+        });
+        anchor.on("mouseover", function () {
+            document.body.style.cursor = "pointer";
+            this.setStrokeWidth(4);
+            layer.draw();
+        });
+        anchor.on("mouseout", function () {
+            document.body.style.cursor = "default";
+            this.setStrokeWidth(2);
+            layer.draw();
+        });
+
+        group.add(anchor);
+    }
+
+    let stage = new Konva.Stage({
+        container: "preview",
+        width: 158,
+        height: 258,
+    });
+
+    let layer = new Konva.Layer();
+    stage.add(layer);
+
+    const MAX_WIDTH = 150;
+    let textNode = new Konva.Text();
+
+    function addText() {
+        $("#editorTextModal").modal("hide");
+        stage.add(layer);
+
+        textNode.setAttrs({
+            x: 5,
+            y: 20,
+            width: 140,
+            fontSize: 22,
+            align: "center",
+            text: $("#textContent").val() || "Type your text",
+            draggable: true,
+            dragBoundFunc: function (pos) {
+                let newX = pos.x < 0 ? 0 : pos.x && pos.x > 16 ? 16 : pos.x;
+                let newY = pos.y < 0 ? 0 : pos.y && pos.y > stage.height() - textNode.height() ? stage.height() - textNode.height() : pos.y;
+                return { x: newX, y: newY };
+            },
+        });
+
+        layer.add(textNode);
+
+        let tr = new Konva.Transformer({
+            nodes: [textNode],
+            keepRatio: true,
+            enabledAnchors: ["top-left", "top-right", "bottom-left", "bottom-right"],
+            boundBoxFunc: function (oldBoundBox, newBoundBox) {
+                if (Math.abs(newBoundBox.width) > MAX_WIDTH) {
+                    return oldBoundBox;
+                }
+                return newBoundBox;
+            },
+        });
+
+        textNode.on("transform", function () {
+            textNode.setAttrs({
+                width: textNode.width() * textNode.scaleX(),
+                scaleX: 1,
+            });
+        });
+
+        layer.add(tr);
+        layer.draw();
+    }
+
+    function clearCanvas() {
+        layer.destroy();
+        layer = new Konva.Layer();
+        stage.add(layer);
+    }
+
+    $(document).ready(function () {
+        $("#colorDrawer").html(drawColors());
+
+        $("#rotate").click(function () {
+            let previewElement = $("#preview");
+            let width = previewElement.width();
+            let height = previewElement.height();
+            let newWidth = height;
+            let newHeight = width;
+            previewElement.width(newWidth);
+            previewElement.height(newHeight);
+            stage.width(newWidth);
+            stage.height(newHeight);
+            stage.draw();
+        });
+
+        $(".color-preview").click(function () {
+            if (tShirtOrTextColor === "text") {
+                textNode.fill($(this).css("background-color"));
+                layer.draw();
+            } else {
+                $("#preview").css("background-color", $(this).css("background-color"));
+            }
+            $("#colorModal").modal("hide");
+        });
+
+        $("#color").click(function () {
+            tShirtOrTextColor = "tshirt";
+            $("#colorModal").modal("show");
+        });
+
+        $("#addingText").click(function () {
+            $("#editorTextModal").modal("show");
+        });
+
+        $("#drawText").click(function () {
+            addText();
+        });
+
+        $("#delete").click(function () {
+            clearCanvas();
+        });
+
+        $("#download-image").click(function () {
+            stage.toDataURL({
+                callback: function (dataUrl) {
+                    let link = document.createElement("a");
+                    link.download = "tshirt_design.png";
+                    link.href = dataUrl;
+                    link.click();
+                },
+            });
+        });
+
+        $("#file-select").change(function () {
+            let file = this.files[0];
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                let img = new Image();
+                img.onload = function () {
+                    let imgNode = new Konva.Image({
+                        x: 50,
+                        y: 50,
+                        image: img,
+                        width: img.width * 0.25,
+                        height: img.height * 0.25,
+                        draggable: true,
+                    });
+
+                    let group = new Konva.Group({
+                        x: 0,
+                        y: 0,
+                        draggable: true,
+                    });
+                    layer.add(group);
+                    group.add(imgNode);
+
+                    addAnchor(group, 0, 0, "topLeft");
+                    addAnchor(group, img.width * 0.25, 0, "topRight");
+                    addAnchor(group, img.width * 0.25, img.height * 0.25, "bottomRight");
+                    addAnchor(group, 0, img.height * 0.25, "bottomLeft");
+
+                    layer.draw();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+</script>
+</body>
 </html>
