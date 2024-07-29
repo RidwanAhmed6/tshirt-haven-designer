@@ -613,38 +613,5 @@ $("#tshirt-add-to-cart").on("click", function () {
 document.addEventListener('DOMContentLoaded', function () {
     const tshirtColorDrawer = document.getElementById('tshirtColorDrawer');
     
-    // T-Shirt Color Options
-    const tshirtColors = [
-        { name: 'White', color: '#ffffff' },
-        { name: 'Sky', color: '#87ceeb' },
-        { name: 'Light Yellow', color: '#ffffe0' },
-        { name: 'Pink', color: '#ffc0cb' },
-        { name: 'Screamin Green', color: '#00ff00' }
-    ];
-
-    // Create and append color boxes to the modal
-    tshirtColors.forEach(colorOption => {
-        const colorDiv = document.createElement('div');
-        colorDiv.className = 'color-box';
-        colorDiv.style.backgroundColor = colorOption.color;
-        colorDiv.title = colorOption.name;
-        colorDiv.style.width = '50px';
-        colorDiv.style.height = '50px';
-        colorDiv.style.display = 'inline-block';
-        colorDiv.style.margin = '5px';
-        colorDiv.style.cursor = 'pointer';
-
-        colorDiv.addEventListener('click', () => {
-            // Handle t-shirt color selection
-            document.getElementById('frontImage').style.backgroundColor = colorOption.color;
-            console.log('Selected t-shirt color:', colorOption.name);
-            // Optionally close the modal after selection
-            var myModal = bootstrap.Modal.getInstance(document.getElementById('tshirtColorModal'));
-            myModal.hide();
-        });
-
-        tshirtColorDrawer.appendChild(colorDiv);
-    });
-});
-
+  
 
