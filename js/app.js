@@ -615,4 +615,18 @@ document.getElementById('download-image').addEventListener('click', function() {
     alert('No canvas element found!');
   }
 });
+document.getElementById('download-image').addEventListener('click', function() {
+  const preview = document.getElementById('preview');
+  if (preview) {
+    const dataURL = preview.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = dataURL;
+    link.download = 'tshirt_design.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } else {
+    alert('No preview element found!');
+  }
+});
 
