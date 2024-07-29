@@ -616,4 +616,58 @@ document.getElementById('download-image').addEventListener('click', function() {
     alert('No canvas element found!');
   }
 });
+document.getElementById('tshirt-add-to-cart').addEventListener('click', function () {
+  // Dynamically set design image in the modal
+  const designImage = document.getElementById('frontImage').src;
+  document.getElementById('designImageContainer').innerHTML = `<img src="${designImage}" class="img-fluid" alt="Design Image">`;
+
+  // Show the shipping details modal
+  new bootstrap.Modal(document.getElementById('shippingDetailsModal')).show();
+});
+
+document.getElementById('sendOrderButton').addEventListener('click', function () {
+  // Collect form data
+  const designImage = document.getElementById('frontImage').src;
+  const uploadedPhotos = document.getElementById('uploadPhotos').files;
+  const textInput = document.getElementById('textInput').value;
+  const quantity = document.getElementById('quantityInput').value;
+  const name = document.getElementById('nameInput').value;
+  const mobile = document.getElementById('mobileInput').value;
+  const address = document.getElementById('addressInput').value;
+  const note = document.getElementById('noteInput').value;
+  
+  // Construct the email body (you will need a server-side script to handle sending the email)
+  const emailBody = `
+    Design Image: ${designImage}\n
+    Text Input: ${textInput}\n
+    Quantity: ${quantity}\n
+    Name: ${name}\n
+    Mobile Number: ${mobile}\n
+    Address: ${address}\n
+    Note: ${note}\n
+  `;
+  
+  // Prepare the email (using an email sending service or backend script)
+  fetch('your-email-sending-endpoint', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      subject: 'New T-shirt Order',
+      body: emailBody
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    alert('Order sent successfully!');
+    // Hide the modal
+    bootstrap.Modal.getInstance(document.getElementById('shippingDetailsModal')).hide();
+  })
+  .catch(error => {
+    console.error('Error sending order:', error);
+    alert('Error sending order.');
+  });
+});
+
 
