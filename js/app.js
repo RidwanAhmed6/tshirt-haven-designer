@@ -628,46 +628,47 @@ document.getElementById('tshirt-add-to-cart').addEventListener('click', function
 document.getElementById('sendOrderButton').addEventListener('click', function () {
   // Collect form data
   const designImage = document.getElementById('frontImage').src;
-  const uploadedPhotos = document.getElementById('uploadPhotos').files;
+  const uploadedPhotos = document.getElementById('file-select').files;
   const textInput = document.getElementById('textInput').value;
   const quantity = document.getElementById('quantityInput').value;
   const name = document.getElementById('nameInput').value;
   const mobile = document.getElementById('mobileInput').value;
   const address = document.getElementById('addressInput').value;
   const note = document.getElementById('noteInput').value;
-  
-  // Construct the email body (you will need a server-side script to handle sending the email)
-  const emailBody = `
-    Design Image: ${designImage}\n
-    Text Input: ${textInput}\n
-    Quantity: ${quantity}\n
-    Name: ${name}\n
-    Mobile Number: ${mobile}\n
-    Address: ${address}\n
-    Note: ${note}\n
-  `;
-  
-  // Prepare the email (using an email sending service or backend script)
-  fetch('your-email-sending-endpoint', {
+
+  // Prepare form data
+  const formData = new FormData();
+  formData.append('designImage', designImage);
+  formData.append('textInput', textInput);
+  formData.append('quantity', quantity);
+  formData.append('name', name);
+  formData.append('mobile', mobile);
+  formData.append('address', address);
+  formData.append('note', note);
+  for (const file of uploadedPhotos) {
+    formData.append('uploadedPhotos[]', file);
+  }
+
+  // Send the data to the server
+  fetch('tshirt-haven-designer/send_email.php', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      subject: 'New T-shirt Order',
-      body: emailBody
-    })
+    body: formData
   })
   .then(response => response.json())
   .then(data => {
-    alert('Order sent successfully!');
-    // Hide the modal
-    bootstrap.Modal.getInstance(document.getElementById('shippingDetailsModal')).hide();
+    if (data.success) {
+      alert('Order sent successfully!');
+      // Hide the modal
+      bootstrap.Modal.getInstance(document.getElementById('shippingDetailsModal')).hide();
+    } else {
+      alert('Error sending order.');
+    }
   })
   .catch(error => {
     console.error('Error sending order:', error);
     alert('Error sending order.');
   });
 });
+
 
 
