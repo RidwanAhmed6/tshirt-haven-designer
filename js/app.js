@@ -601,6 +601,7 @@ $("#tshirt-add-to-cart").on("click", function () {
   let dataURL = stage.toDataURL();
 });
 
+
 document.getElementById('download-image').addEventListener('click', function() {
   // Assuming you have a canvas element with id 'canvas'
   const canvas = document.getElementById('canvas');
