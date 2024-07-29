@@ -2,27 +2,27 @@ let tShirtOrTextColor = "";
 
 let colors = `
 <ul class="list-group">
-<li class="list-group-item color-preview" title="White" style="background-color:#ffffff;"></li>
-<li class="list-group-item color-preview" title="Dark Heather" style="background-color:#616161;"></li>
+<li class="list-group-item color-preview"  title="White" style="background-color:#ffffff;"></li>
+<li class="list-group-item color-preview"  title="Dark Heather" style="background-color:#616161;"></li>
 <li class="list-group-item color-preview" title="Gray" style="background-color:#f0f0f0;"></li>
 <li class="list-group-item color-preview" title="Charcoal" style="background-color:#5b5b5b;"></li>
-<li class="list-group-item color-preview" title="Black" style="background-color:#222222;"></li>
-<li class="list-group-item color-preview" title="Heather Orange" style="background-color:#fc8d74;"></li>
-<li class="list-group-item color-preview" title="Heather Dark Chocolate" style="background-color:#432d26;"></li>
-<li class="list-group-item color-preview" title="Salmon" style="background-color:#eead91;"></li>
-<li class="list-group-item color-preview" title="Chesnut" style="background-color:#806355;"></li>
-<li class="list-group-item color-preview" title="Dark Chocolate" style="background-color:#382d21;"></li>
-<li class="list-group-item color-preview" title="Citrus Yellow" style="background-color:#faef93;"></li>
-<li class="list-group-item color-preview" title="Avocado" style="background-color:#aeba5e;"></li>
-<li class="list-group-item color-preview" title="Kiwi" style="background-color:#8aa140;"></li>
-<li class="list-group-item color-preview" title="Irish Green" style="background-color:#1f6522;"></li>
-<li class="list-group-item color-preview" title="Scrub Green" style="background-color:#13afa2;"></li>
-<li class="list-group-item color-preview" title="Teal Ice" style="background-color:#b8d5d7;"></li>
-<li class="list-group-item color-preview" title="Heather Sapphire" style="background-color:#15aeda;"></li>
-<li class="list-group-item color-preview" title="Sky" style="background-color:#a5def8;"></li>
-<li class="list-group-item color-preview" title="Antique Sapphire" style="background-color:#0f77c0;"></li>
+<li class="list-group-item color-preview"  title="Black" style="background-color:#222222;"></li>
+<li class="list-group-item color-preview"  title="Heather Orange" style="background-color:#fc8d74;"></li>
+<li class="list-group-item color-preview"  title="Heather Dark Chocolate" style="background-color:#432d26;"></li>
+<li class="list-group-item color-preview"  title="Salmon" style="background-color:#eead91;"></li>
+<li class="list-group-item color-preview"  title="Chesnut" style="background-color:#806355;"></li>
+<li class="list-group-item color-preview"  title="Dark Chocolate" style="background-color:#382d21;"></li>
+<li class="list-group-item color-preview"  title="Citrus Yellow" style="background-color:#faef93;"></li>
+<li class="list-group-item color-preview"  title="Avocado" style="background-color:#aeba5e;"></li>
+<li class="list-group-item color-preview"  title="Kiwi" style="background-color:#8aa140;"></li>
+<li class="list-group-item color-preview"  title="Irish Green" style="background-color:#1f6522;"></li>
+<li class="list-group-item color-preview"  title="Scrub Green" style="background-color:#13afa2;"></li>
+<li class="list-group-item color-preview"  title="Teal Ice" style="background-color:#b8d5d7;"></li>
+<li class="list-group-item color-preview"  title="Heather Sapphire" style="background-color:#15aeda;"></li>
+<li class="list-group-item color-preview"  title="Sky" style="background-color:#a5def8;"></li>
+<li class="list-group-item color-preview"  title="Antique Sapphire" style="background-color:#0f77c0;"></li>
 <li class="list-group-item color-preview" title="Heather Navy" style="background-color:#3469b7;"></li>							
-<li class="list-group-item color-preview" title="Cherry Red" style="background-color:#c50404;"></li>
+<li class="list-group-item color-preview"  title="Cherry Red" style="background-color:#c50404;"></li>
 </ul>
 `;
 
@@ -43,13 +43,18 @@ $("#color").click(function () {
 });
 
 function drawColors() {
-  return colors;
+  let html = "";
+
+  html += colors;
+
+  return html;
 }
 
 $("#colorDrawer").html(drawColors());
 
 function update(activeAnchor) {
   let group = activeAnchor.getParent();
+
   let topLeft = group.get(".topLeft")[0];
   let topRight = group.get(".topRight")[0];
   let bottomRight = group.get(".bottomRight")[0];
@@ -59,6 +64,7 @@ function update(activeAnchor) {
   let anchorX = activeAnchor.getX();
   let anchorY = activeAnchor.getY();
 
+  // update anchor positions
   switch (activeAnchor.getName()) {
     case "topLeft":
       topRight.setY(anchorY);
@@ -116,13 +122,15 @@ function addAnchor(group, x, y, name) {
     group.setDraggable(true);
     layer.draw();
   });
-
+  // add hover styling
   anchor.on("mouseover", function () {
+    let layer = this.getLayer();
     document.body.style.cursor = "pointer";
     this.setStrokeWidth(4);
     layer.draw();
   });
   anchor.on("mouseout", function () {
+    let layer = this.getLayer();
     document.body.style.cursor = "default";
     this.setStrokeWidth(2);
     layer.draw();
@@ -139,8 +147,10 @@ let stage = new Konva.Stage({
 
 let layer = new Konva.Layer();
 stage.add(layer);
+//stage.draw();
 
-const MAX_WIDTH = 150;
+let maxWidth = $(".konvajs-content").innerWidth();
+let maxHeight = $(".konvajs-content").innerHeight();
 
 $("#addingText").click(function () {
   tShirtOrTextColor = "textColor";
@@ -151,9 +161,14 @@ $("#drawText").click(addText);
 
 let textNode = new Konva.Text();
 
+const MAX_WIDTH = 150;
+
 function addText() {
   $("#editorTextModal").modal("hide");
   stage.add(layer);
+
+  $("#addModal").modal("hide");
+  $("#textMaxLength").show();
 
   textNode.setAttrs({
     x: 5,
@@ -165,29 +180,43 @@ function addText() {
     align: "center",
     text: "Type your text",
     draggable: true,
+
     dragBoundFunc: function (pos) {
-      let newX = pos.x < 0 ? 0 : pos.x > 16 ? 16 : pos.x;
-      let newY = pos.y < 0 ? 0 : pos.y > stage.height() - textNode.height() ? stage.height() - textNode.height() : pos.y;
-      return { x: newX, y: newY };
+      let newX = pos.x < 0 ? 0 : pos.x && pos.x > 16 ? 16 : pos.x;
+      let newY =
+        pos.y < 0
+          ? 0
+          : pos.y && pos.y > stage.height() - textNode.height()
+          ? stage.height() - textNode.height()
+          : pos.y;
+
+      return {
+        x: newX,
+        y: newY,
+      };
     },
   });
 
   layer.add(textNode);
+  /* SHOW FONT COLORS AFTER TEXT IS ADDED */
 
   let tr = new Konva.Transformer({
     nodes: [textNode],
     keepRatio: true,
     align: "center",
     enabledAnchors: ["top-left", "top-right", "bottom-left", "bottom-right"],
+
     boundBoxFunc: function (oldBoundBox, newBoundBox) {
       if (Math.abs(newBoundBox.width) > MAX_WIDTH) {
         return oldBoundBox;
       }
+
       return newBoundBox;
     },
   });
 
   textNode.on("transform", function () {
+    // reset scale, so only with is changing by transformer
     textNode.setAttrs({
       width: textNode.width() * textNode.scaleX(),
       scaleX: 1,
@@ -196,29 +225,60 @@ function addText() {
 
   layer.add(tr);
 
+  layer.on("dragstart", function (e) {
+    document.querySelector(".konvajs-content").style.border = "1px solid black";
+  });
+
+  layer.on("dragend", function (e) {
+    document.querySelector(".konvajs-content").style.border = "none";
+  });
+
   textNode.on("click tap", () => {
+    // hide text node and transformer:
+
     textNode.hide();
     tr.hide();
 
+    // create textarea over canvas with absolute position
+    // first we need to find position for textarea
+    // how to find it?
+
+    // at first lets find position of text node relative to the stage:
     let textPosition = textNode.absolutePosition();
+
+    // so position of textarea will be the sum of positions above:
     let areaPosition = {
       x: stage.container().offsetLeft + textPosition.x,
       y: stage.container().offsetTop + textPosition.y,
     };
 
+    // create textarea and style it
+    let textLenght;
     let textarea = document.createElement("textarea");
+
     textarea.addEventListener("keyup", (e) => {
-      if (e.target.value.length > 16) {
+      textLenght = e.target.value.length;
+
+      if (textLenght > 16) {
         textarea.style.fontSize = "16px";
       }
     });
 
+    //textarea.setAttribute('maxLength', 15)
     $("#preview").append(textarea);
+
+    // apply many styles to match text on canvas as close as possible
+    // remember that text rendering on canvas and on the textarea can be different
+    // and sometimes it is hard to make it 100% the same. But we will try...
     textarea.value = textNode.text();
     textarea.style.position = "absolute";
+    // textarea.style.top = areaPosition.y + 'px';
     textarea.style.top = "70px";
+    // textarea.style.left = areaPosition.x + 'px';
     textarea.style.left = "110px";
     textarea.style.width = textNode.width() - textNode.padding() * 2 + "px";
+    // textarea.style.height =
+    //   textNode.height() - textNode.padding() * 2 + 5 + 'px';
     textarea.style.maxWidth = stage.width() * 2 + "px";
     textarea.style.fontSize = textNode.fontSize() + "px";
     textarea.style.border = "none";
@@ -233,101 +293,372 @@ function addText() {
     textarea.style.transformOrigin = "left top";
     textarea.style.textAlign = textNode.align();
     textarea.style.color = textNode.fill();
-
-    let rotation = textNode.rotation();
+    rotation = textNode.rotation();
     let transform = "";
     if (rotation) {
       transform += "rotateZ(" + rotation + "deg)";
     }
-    let px = stage.container().offsetLeft + textPosition.x;
-    let py = stage.container().offsetTop + textPosition.y;
 
-    transform += "translateY(" + py + "px)";
-    transform += "translateX(" + px + "px)";
+    let px = 0;
+    // also we need to slightly move textarea on firefox
+    // because it jumps a bit
+    let isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
+    if (isFirefox) {
+      px += 2 + Math.round(textNode.fontSize() / 20);
+    }
+    transform += "translateY(-" + px + "px)";
+
     textarea.style.transform = transform;
+
+    // reset height
+    textarea.style.height = "auto";
+    // after browsers resized it we can set actual value
+    textarea.style.height = textarea.scrollHeight + 3 + "px";
 
     textarea.focus();
 
     function removeTextarea() {
-      textNode.text(textarea.value);
+      textarea.parentNode.removeChild(textarea);
+      window.removeEventListener("click", handleOutsideClick);
       textNode.show();
       tr.show();
-      textarea.remove();
-      layer.batchDraw();
+      //tr.forceUpdate();
     }
 
-    textarea.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
+    function setTextareaWidth(newWidth) {
+      if (!newWidth) {
+        // set width for placeholder
+        newWidth = textNode.placeholder.length * textNode.fontSize();
+      }
+      // some extra fixes on different browsers
+      let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+      let isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
+      if (isSafari || isFirefox) {
+        newWidth = Math.ceil(newWidth);
+      }
+
+      let isEdge = document.documentMode || /Edge/.test(navigator.userAgent);
+      if (isEdge) {
+        newWidth += 1;
+      }
+      textarea.style.width = newWidth + "px";
+    }
+
+    textarea.addEventListener("keydown", function (e) {
+      // hide on enter
+      // but don't hide on shift + enter
+      if (e.keyCode === 13 && !e.shiftKey) {
+        textNode.text(textarea.value);
+        removeTextarea();
+      }
+      // on esc do not set value back to node
+      if (e.keyCode === 27) {
         removeTextarea();
       }
     });
 
-    textarea.addEventListener("blur", removeTextarea);
-  });
+    textarea.addEventListener("keydown", function (e) {
+      scale = textNode.getAbsoluteScale().x;
+      setTextareaWidth(textNode.width() * scale);
+      textarea.style.height = "auto";
+      textarea.style.height =
+        textarea.scrollHeight + textNode.fontSize() + "px";
 
-  layer.draw();
+      if (textLenght > 16) {
+        textNode.fontSize(16);
+      }
+    });
+
+    function handleOutsideClick(e) {
+      if (e.target !== textarea) {
+        textNode.text(textarea.value);
+        removeTextarea();
+      }
+    }
+
+    setTimeout(() => {
+      window.addEventListener("click", handleOutsideClick);
+    });
+  });
 }
 
-function saveImage() {
-  let imageData = stage.toDataURL({ pixelRatio: 2 });
-  let compressedData = imageConversion.compress(imageData, { maxSizeMB: 1 });
+$("#fontColorPickerWrap h2").show();
+$("#fontColorPicker").html(colors);
 
-  let form = document.createElement("form");
-  form.method = "POST";
-  form.action = "https://docs.google.com/forms/d/e/1FAIpQLSeI5GpfklKD4GnM1hf86uOkl_r5ZT-zm_Ndsq2xK_E6sMlNDg/formResponse";
+let chooseColor = document.querySelectorAll(".color-preview");
 
-  let inputImage = document.createElement("input");
-  inputImage.name = "entry.1700842435";
-  inputImage.value = compressedData;
-  form.appendChild(inputImage);
+for (let i = 0; i < chooseColor.length; i++) {
+  chooseColor[i].addEventListener("click", () => {
 
-  let inputName = document.createElement("input");
-  inputName.name = "entry.1678458930";
-  inputName.value = "Sample Name";
-  form.appendChild(inputName);
+    if (tShirtOrTextColor === "tShirtColor") {
 
-  let inputColor = document.createElement("input");
-  inputColor.name = "entry.483028855";
-  inputColor.value = "Sample Color";
-  form.appendChild(inputColor);
+      $("#colorModal").modal("hide");
+      let appliedColor = chooseColor[i].style.backgroundColor;
+      $("#editorImage").css("background-color", appliedColor);
 
-  let inputText = document.createElement("input");
-  inputText.name = "entry.1144876090";
-  inputText.value = "Sample Text";
-  form.appendChild(inputText);
+    }
 
-  document.body.appendChild(form);
-  form.submit();
-  document.body.removeChild(form);
+    if (tShirtOrTextColor === "textColor") {
+
+      let appliedColor = chooseColor[i].style.backgroundColor;
+
+      textNode.setAttrs({
+        fill: appliedColor,
+      });
+      $("#editorTextModal").modal("hide");
+    }
+  });
 }
 
-$("#downloadImage").click(function () {
-  let form = $('<form>', {
-    'method': 'POST',
-    'action': 'https://docs.google.com/forms/d/e/1FAIpQLSeI5GpfklKD4GnM1hf86uOkl_r5ZT-zm_Ndsq2xK_E6sMlNDg/formResponse'
-  });
+/* FONT STYLE */
 
-  form.append($('<input>', {
-    'name': 'entry.1700842435',
-    'value': stage.toDataURL()
-  }));
-  
-  form.append($('<input>', {
-    'name': 'entry.1678458930',
-    'value': 'Sample Name'
-  }));
-  
-  form.append($('<input>', {
-    'name': 'entry.483028855',
-    'value': 'Sample Color'
-  }));
-  
-  form.append($('<input>', {
-    'name': 'entry.1144876090',
-    'value': 'Sample Text'
-  }));
-  
-  $('body').append(form);
-  form.submit();
-  $('body').remove(form);
+$("#chooseFontStyle").on("change", function () {
+  let chosenFontStyle = $(this).val();
+
+  if (chosenFontStyle === "bold") {
+    textNode.setAttrs({
+      fontStyle: chosenFontStyle,
+      fontSize: 21,
+    });
+  } else {
+    textNode.setAttrs({
+      fontStyle: chosenFontStyle,
+    });
+  }
+
+  $("#editorTextModal").modal("hide");
 });
+
+/* FONT FAMILY */
+
+$("#chooseFontFamily").on("change", function () {
+  let chosenFontFamily = $(this).val();
+
+  textNode.setAttrs({
+    fontFamily: chosenFontFamily,
+  });
+
+  $("#editorTextModal").modal("hide");
+});
+
+// listen for the file input change event and load the image.
+$("#file-select").change(function (e) {
+  let spinner = document.querySelector(".spinner-grow");
+  let container = document.querySelector(".container-fluid");
+
+  spinner.style.display = "block";
+  container.style.display = "none";
+  clearCanvas();
+
+  let originalImage = e.target.files[0];
+
+  spinner.style.display = "block";
+  document.querySelector(".container-fluid").style.display = "none";
+
+  let originalTotalSize = (originalImage.size / 1048576).toFixed(3);
+  originalTotalSize = Number(originalTotalSize);
+
+  imageConversion.compress(originalImage, 0.2).then((res) => {
+
+    let getOriginalImageSize = res.size;
+    let totalSizeInKB = (getOriginalImageSize / (1024 * 1024)).toFixed(3);
+    totalSizeInKB = Number(totalSizeInKB);
+
+    let url = URL.createObjectURL(res);
+
+    let imageObj1 = new Image();
+    imageObj1.onload = function () {
+      stage.add(layer);
+
+      // create an image
+      let selectedImg = new Konva.Image({
+        width: 158,
+        draggable: true,
+        scaleX: 1,
+        scaleY: 1,
+        dragBoundFunc: function (pos) {
+          let newX =
+            pos.x < 0
+              ? 0
+              : pos.x && pos.x > stage.width() - tr1.width()
+              ? stage.width() - tr1.width()
+              : pos.x;
+          let newY =
+            pos.y < 0
+              ? 0
+              : pos.y && pos.y > stage.height() - tr1.height()
+              ? stage.height() - tr1.height()
+              : pos.y;
+
+          return {
+            x: newX,
+            y: newY,
+          };
+        },
+      });
+      let canvasContent = document.querySelector(".konvajs-content");
+
+      selectedImg.on("dragstart", function (e) {
+        canvasContent.style.border = "1px solid black";
+      });
+
+      selectedImg.on("dragend", function (e) {
+        canvasContent.style.border = "none";
+      });
+
+      // landscape
+      if (imageObj1.width > imageObj1.height) {
+        selectedImg.setAttrs({
+          // width: 180,
+          // height: 120
+          width: 140,
+          height: 90,
+        });
+      }
+
+      // portrait
+      if (imageObj1.width < imageObj1.height) {
+        selectedImg.setAttrs({
+          //width: 120,
+          //height: 180
+          width: 90,
+          height: 140,
+        });
+      }
+
+      // square
+      if (imageObj1.width === imageObj1.height) {
+
+        selectedImg.setAttrs({
+          width: 100,
+          height: 100,
+        });
+      }
+
+      // create image container
+      let wrapCanvasContainer = new Konva.Group({
+        x: 10,
+        y: 10,
+
+        //x: 40,
+        //  y: 50,
+
+        draggable: true,
+      });
+
+      layer.add(wrapCanvasContainer);
+      wrapCanvasContainer.add(selectedImg);
+
+      selectedImg.on("transform", function () {
+      });
+
+      let tr1 = new Konva.Transformer({
+        nodes: [selectedImg],
+        keepRatio: true,
+        enabledAnchors: [
+          "top-left",
+          "top-right",
+          "bottom-left",
+          "bottom-right",
+        ],
+        boundBoxFunc: function (oldBoundBox, newBoundBox) {
+          if (Math.abs(newBoundBox.width) > MAX_WIDTH) {
+            return oldBoundBox;
+          }
+
+          return newBoundBox;
+        },
+      });
+
+      layer.add(tr1);
+
+      selectedImg.image(imageObj1);
+      layer.draw();
+      $("#addModal").modal("hide");
+
+      spinner.style.display = "none";
+      document.querySelector(".container-fluid").style.display = "block";
+    };
+
+    imageObj1.src = url;
+    spinner.style.display = "none";
+    container.style.display = "block";
+
+    //const file = new File([url], 'untitled')
+
+    // end file select
+  }); // end compressing
+});
+
+$("#delete").on("click", clearCanvas);
+
+function clearCanvas() {
+  // remove text, no destroy it if reuse
+  layer.destroy();
+}
+
+$("#tshirt-add-to-cart").on("click", function () {
+  let dataURL = stage.toDataURL();
+});
+
+
+document.getElementById('download-image').addEventListener('click', function() {
+  // Assuming you have a canvas element with id 'canvas'
+  const canvas = document.getElementById('canvas');
+  if (canvas) {
+    const dataURL = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = dataURL;
+    link.download = 'tshirt_design.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } else {
+    alert('No canvas element found!');
+  }
+});
+// Download Design Button Functionality
+        document.getElementById('design-download').addEventListener('click', function () {
+            const canvas = document.querySelector('#canvas');
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'tshirt_design.png';
+            link.click();
+        });
+
+        // Send Order Button Functionality
+        document.getElementById('sendOrderButton').addEventListener('click', function () {
+            const designImage = document.getElementById('frontImage').src;
+            const quantity = document.getElementById('quantityInput').value;
+            const name = document.getElementById('nameInput').value;
+            const mobile = document.getElementById('mobileInput').value;
+            const address = document.getElementById('addressInput').value;
+            const note = document.getElementById('noteInput').value;
+
+            const formData = new FormData();
+            formData.append('entry.1234567890', designImage); // Replace with your Google Form field ID for design image
+            formData.append('entry.0987654321', quantity); // Replace with your Google Form field ID for quantity
+            formData.append('entry.1112131415', name); // Replace with your Google Form field ID for name
+            formData.append('entry.1213141516', mobile); // Replace with your Google Form field ID for mobile
+            formData.append('entry.1314151617', address); // Replace with your Google Form field ID for address
+            formData.append('entry.1415161718', note); // Replace with your Google Form field ID for note
+
+            fetch('https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Order sent successfully!');
+                    bootstrap.Modal.getInstance(document.getElementById('shippingDetailsModal')).hide();
+                } else {
+                    throw new Error('Failed to send order');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error sending order.');
+            });
+        });
+
+
