@@ -3,7 +3,9 @@ body {
   font-family: "Montserrat", sans-serif;
   background-color: #efefef;
 }
-
+#canvas {
+  display: none;
+}
 /* HEADER */
 header {
   display: flex;
