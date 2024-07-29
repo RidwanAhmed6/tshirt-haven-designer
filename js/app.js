@@ -172,35 +172,15 @@ document.querySelector("#fontColorPickerWrap h2").style.display = "block";
 document.querySelector("#fontColorPicker").innerHTML = colors;
 
 const chooseColor = document.querySelectorAll(".color-preview");
-
-chooseColor.forEach((colorItem) => {
-  colorItem.addEventListener("click", () => {
-    const appliedColor = colorItem.style.backgroundColor;
-
-    if (tShirtOrTextColor === "tShirtColor") {
-      $("#colorModal").modal("hide");
-      document.querySelector("#editorImage").style.backgroundColor = appliedColor;
-    }
-
+chooseColor.forEach((elem) => {
+  elem.addEventListener("click", function () {
     if (tShirtOrTextColor === "textColor") {
-      textNode.setAttrs({ fill: appliedColor });
-      $("#editorTextModal").modal("hide");
+      textNode.fill(this.style.backgroundColor);
+    } else {
+      $("#colorModal").modal("hide");
+      document.querySelector(".container-rotate").style.backgroundColor = this.style.backgroundColor;
     }
   });
-});
-
-document.querySelector("#chooseFontStyle").addEventListener("change", function () {
-  const chosenFontStyle = this.value;
-  textNode.setAttrs({
-    fontStyle: chosenFontStyle,
-    fontSize: chosenFontStyle === "bold" ? 21 : textNode.fontSize(),
-  });
-  $("#editorTextModal").modal("hide");
-});
-
-document.querySelector("#chooseFontFamily").addEventListener("change", function () {
-  textNode.setAttrs({ fontFamily: this.value });
-  $("#editorTextModal").modal("hide");
 });
 
 document.querySelector("#clearText").addEventListener("click", function () {
@@ -265,10 +245,10 @@ function compressImage() {
     };
   };
 }
+
 document.querySelector("#design-download").addEventListener("click", downloadDesign);
 
 function downloadDesign() {
-  // Assume `stage` is your Konva stage instance
   const dataURL = stage.toDataURL({ pixelRatio: 3 });
   const link = document.createElement('a');
   link.href = dataURL;
@@ -278,9 +258,8 @@ function downloadDesign() {
   document.body.removeChild(link);
 }
 
-function openShippingDetailsModal() {
-  // Display the shipping details modal
-  $("#shippingDetailsModal").modal("show");
-}
 document.querySelector("#openShippingModal").addEventListener("click", openShippingDetailsModal);
 
+function openShippingDetailsModal() {
+  $("#shippingDetailsModal").modal("show");
+}
