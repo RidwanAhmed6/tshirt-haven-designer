@@ -100,7 +100,8 @@
 
         <footer class="col-lg-2 col-md-12">
           <!-- <button type="button" class="btn btn-info footerBut" id="upload-button" onclick="openUpload()"> Upload Images </button> -->
-         <button
+         <!-- Button to open the popup form -->
+<button
   type="button"
   class="btn btn-info footerBut"
   id="download-image"
@@ -110,7 +111,7 @@
         </footer>
       </div>
     </div>
-<!-- Button to open the popup form -->
+
 
 
 <!-- Popup form -->
@@ -126,6 +127,7 @@
           <img id="customizedTshirtPreview" src="" alt="Customized T-shirt Preview" class="img-fluid mb-3">
         </div>
         <form id="orderForm">
+          <!-- Form fields -->
           <div class="mb-3">
             <label for="quantity" class="form-label">Quantity (minimum 10)</label>
             <input type="number" class="form-control" id="quantity" name="quantity" min="10" required>
@@ -173,112 +175,6 @@
     </div>
   </div>
 </div>
-
-    <!-- COLOR PICKER -->
-    <div
-      class="modal fade"
-      id="colorModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Choose a color</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body" id="colorDrawer">
-            <!-- ADD COLORS HERE -->
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--EDITOR TEXT-->
-    <div
-      class="modal fade"
-      id="editorTextModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabelText"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title text-center" id="exampleModalLabelText">
-              Editor Text
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body" id="editorTextDrawer">
-            <div class="text-center">
-              <button type="button" class="btn btn-primary" id="drawText">
-                <i class="fas fa-plus"> Add Text</i>
-              </button>
-              <div id="fontColorPickerWrap">
-                <br />
-                <br />
-                <h2 style="display: none">Choose a color</h2>
-                <br />
-                <div id="fontColorPicker"></div>
-                <br />
-                <!--FONT COLORS HERE-->
-
-                <div id="fontStyle">
-                  <h2>Font style</h2>
-                  <select
-                    class="form-select"
-                    id="chooseFontStyle"
-                    aria-label="Default select example"
-                  >
-                    <option selected>Normal</option>
-                    <option value="bold">Bold</option>
-                    <option value="italic">Italic</option>
-                  </select>
-                </div>
-
-                <!--FONT FAMILY-->
-
-                <div id="fontFamily">
-                  <h2>Font Family</h2>
-                  <select
-                    class="form-select"
-                    id="chooseFontFamily"
-                    aria-label="Default select example"
-                  >
-                    <option value="Montserrat" selected>Montserrat</option>
-                    <option value="Sans Serif">Sans Serif</option>
-                    <option value="Arial">Arial</option>
-                    <option value="Comic Sans MS">Comic Sans MS</option>
-                    <option value="Times New Roman">Times New Roman</option>
-                    <option value="Courier New">Courier New</option>
-                    <option value="Verdana">Verdana</option>
-                    <option value="Trebuchet MS">Trebuchet MS</option>
-                    <option value="Arial Black">Arial Black</option>
-                    <option value="Impact">Impact</option>
-                    <option value="Bookman">Bookman</option>
-                    <option value="Garamond">Garamond</option>
-                    <option value="Palatino">Palatino</option>
-                    <option value="Georgia">Georgia</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <div class="spinner-grow" role="status" style="display: none">
       <span class="visually-hidden">Loading...</span>
