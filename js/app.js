@@ -597,6 +597,9 @@ function clearCanvas() {
   layer.destroy();
 }
 
+$("#tshirt-add-to-cart").on("click", function () {
+  let dataURL = stage.toDataURL();
+});
  $("#download-image").click(function () {
             stage.toDataURL({
                 callback: function (dataUrl) {
@@ -607,3 +610,4 @@ function clearCanvas() {
                 },
             });
         });
+
