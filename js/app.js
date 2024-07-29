@@ -597,22 +597,13 @@ function clearCanvas() {
   layer.destroy();
 }
 
-$("#tshirt-add-to-cart").on("click", function () {
-  let dataURL = stage.toDataURL();
-});
-
-document.getElementById('download-image').addEventListener('click', function() {
-  const preview = document.getElementById('preview');
-  if (preview) {
-    const dataURL = preview.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.href = dataURL;
-    link.download = 'tshirt_design.png';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  } else {
-    alert('No preview element found!');
-  }
-});
-
+ $("#download-image").click(function () {
+            stage.toDataURL({
+                callback: function (dataUrl) {
+                    let link = document.createElement("a");
+                    link.download = "tshirt_design.png";
+                    link.href = dataUrl;
+                    link.click();
+                },
+            });
+        });
