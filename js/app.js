@@ -600,21 +600,7 @@ function clearCanvas() {
 $("#tshirt-add-to-cart").on("click", function () {
   let dataURL = stage.toDataURL();
 });
-document.getElementById('download-image').addEventListener('click', function() {
-  // Assuming you have a canvas element with id 'canvas'
-  const canvas = document.getElementById('canvas');
-  if (canvas) {
-    const dataURL = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.href = dataURL;
-    link.download = 'tshirt_design.png';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  } else {
-    alert('No canvas element found!');
-  }
-});
+
 document.getElementById('download-image').addEventListener('click', function() {
   const preview = document.getElementById('preview');
   if (preview) {
