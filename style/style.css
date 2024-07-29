@@ -136,12 +136,14 @@ footer button {
   font-size: 1.5em;
   margin-top: -30px;
 }
-footer #upload-button {
+
+footer #download-image {
   background-color: #474747;
   border: 1px solid #474747;
   color: #ffffff;
 }
-footer #tshirt-add-to-cart {
+
+footer #order-form-button {
   background-color: #f15922;
   border: 1px solid #f15922;
   color: #ffffff;
