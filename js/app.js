@@ -600,14 +600,43 @@ function clearCanvas() {
 $("#tshirt-add-to-cart").on("click", function () {
   let dataURL = stage.toDataURL();
 });
- $("#download-image").click(function () {
-            stage.toDataURL({
-                callback: function (dataUrl) {
-                    let link = document.createElement("a");
-                    link.download = "tshirt_design.png";
-                    link.href = dataUrl;
-                    link.click();
-                },
-            });
-        });
+document.getElementById('download-image').addEventListener('click', function () {
+  var canvas = document.getElementById('canvas');
+  var previewImage = document.getElementById('customizedTshirtPreview');
 
+  // Capture the canvas content as an image and display it in the preview
+  previewImage.src = canvas.toDataURL();
+
+  // Open the modal
+  var orderFormModal = new bootstrap.Modal(document.getElementById('orderFormModal'));
+  orderFormModal.show();
+});
+
+document.getElementById('quantity').addEventListener('input', function () {
+  var quantity = parseInt(document.getElementById('quantity').value);
+  var pricePerProduct = 120;
+  var totalPrice = quantity * pricePerProduct;
+  document.getElementById('totalPrice').value = totalPrice + ' Taka';
+});
+
+document.getElementById('orderForm').addEventListener('submit', function (event) {
+  event.preventDefault();
+  
+  // Collect form data
+  var formData = new FormData(document.getElementById('orderForm'));
+  formData.append('customizedImage', document.getElementById('customizedTshirtPreview').src);
+
+  // Submit the form data to Google Forms (replace FORM_URL with your Google Form URL)
+  var formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSedj9GM8I8726qXJwzmiFD8pS9zKZV9fvFtJtVwdLboHbVzgQ/viewform?usp=pp_url&entry.1673182666=10&entry.429520815=M++(%E0%A6%AC%E0%A7%81%E0%A6%95+%E0%A7%A9%E0%A7%AC+%E0%A6%87%E0%A6%9E%E0%A7%8D%E0%A6%9A%E0%A6%BF,+%E0%A6%B2%E0%A6%AE%E0%A7%8D%E0%A6%AC%E0%A6%BE+%E0%A7%A8%E0%A7%AD+%E0%A6%87%E0%A6%9E%E0%A7%8D%E0%A6%9A%E0%A6%BF)&entry.429520815=L++(%E0%A6%AC%E0%A7%81%E0%A6%95+%E0%A7%A9%E0%A7%AE+%E0%A6%87%E0%A6%9E%E0%A7%8D%E0%A6%9A%E0%A6%BF,+%E0%A6%B2%E0%A6%AE%E0%A7%8D%E0%A6%AC%E0%A6%BE+%E0%A7%A8%E0%A7%AE+%E0%A6%87%E0%A6%9E%E0%A7%8D%E0%A6%9A%E0%A6%BF)&entry.429520815=XL+(%E0%A6%AC%E0%A7%81%E0%A6%95+%E0%A7%AA%E0%A7%A6+%E0%A6%87%E0%A6%9E%E0%A7%8D%E0%A6%9A%E0%A6%BF,+%E0%A6%B2%E0%A6%AE%E0%A7%8D%E0%A6%AC%E0%A6%BE+%E0%A7%A8%E0%A7%AF+%E0%A6%87%E0%A6%9E%E0%A7%8D%E0%A6%9A%E0%A6%BF)&entry.429520815=XXL(%E0%A6%AC%E0%A7%81%E0%A6%95+%E0%A7%AA%E0%A7%A8+%E0%A6%87%E0%A6%9E%E0%A7%8D%E0%A6%9A%E0%A6%BF,+%E0%A6%B2%E0%A6%AE%E0%A7%8D%E0%A6%AC%E0%A6%BE+%E0%A7%A9%E0%A7%A6+%E0%A6%87%E0%A6%9E%E0%A7%8D%E0%A6%9A%E0%A6%BF)&entry.2002908959=120&entry.1278417623=Ridwan&entry.507946383=01919076192&entry.1305927348=Jhaubari,+Keraniganj,+Dhaka';
+  fetch(formUrl, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.text())
+  .then(data => {
+    alert('Order submitted successfully!');
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+});
