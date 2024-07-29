@@ -221,11 +221,256 @@
       <span class="visually-hidden">Loading...</span>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/konva@8.1.1/konva.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/WangYuLue/image-conversion/build/conversion.js"></script>
-    <script src="./js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/konva@8.3.9/konva.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/image-conversion@0.2.4/dist/image-conversion.min.js"></script>
+<script>
+    let tShirtOrTextColor = "";
+    const colors = `
+        <ul class="list-group">
+            <li class="list-group-item color-preview" title="White" style="background-color:#ffffff;"></li>
+            <li class="list-group-item color-preview" title="Dark Heather" style="background-color:#616161;"></li>
+            <!-- Add other color options here -->
+        </ul>
+    `;
+
+    function drawColors() {
+        return colors;
+    }
+
+    function update(activeAnchor) {
+        let group = activeAnchor.getParent();
+        let topLeft = group.get(".topLeft")[0];
+        let topRight = group.get(".topRight")[0];
+        let bottomRight = group.get(".bottomRight")[0];
+        let bottomLeft = group.get(".bottomLeft")[0];
+        let image = group.get("Image")[0];
+
+        let anchorX = activeAnchor.getX();
+        let anchorY = activeAnchor.getY();
+
+        switch (activeAnchor.getName()) {
+            case "topLeft":
+                topRight.setY(anchorY);
+                bottomLeft.setX(anchorX);
+                break;
+            case "topRight":
+                topLeft.setY(anchorY);
+                bottomRight.setX(anchorX);
+                break;
+            case "bottomRight":
+                bottomLeft.setY(anchorY);
+                topRight.setX(anchorX);
+                break;
+            case "bottomLeft":
+                bottomRight.setY(anchorY);
+                topLeft.setX(anchorX);
+                break;
+        }
+
+        image.position(topLeft.position());
+        let width = topRight.getX() - topLeft.getX();
+        let height = bottomLeft.getY() - topLeft.getY();
+        if (width && height) {
+            image.width(width);
+            image.height(height);
+        }
+    }
+
+    function addAnchor(group, x, y, name) {
+        let stage = group.getStage();
+        let layer = group.getLayer();
+
+        let anchor = new Konva.Circle({
+            x: x,
+            y: y,
+            stroke: "#666",
+            fill: "#ddd",
+            strokeWidth: 2,
+            radius: 5,
+            name: name,
+            draggable: true,
+            dragOnTop: false,
+        });
+
+        anchor.on("dragmove", function () {
+            update(this);
+            layer.draw();
+        });
+        anchor.on("mousedown touchstart", function () {
+            group.setDraggable(false);
+            this.moveToTop();
+        });
+        anchor.on("dragend", function () {
+            group.setDraggable(true);
+            layer.draw();
+        });
+        anchor.on("mouseover", function () {
+            document.body.style.cursor = "pointer";
+            this.setStrokeWidth(4);
+            layer.draw();
+        });
+        anchor.on("mouseout", function () {
+            document.body.style.cursor = "default";
+            this.setStrokeWidth(2);
+            layer.draw();
+        });
+
+        group.add(anchor);
+    }
+
+    let stage = new Konva.Stage({
+        container: "preview",
+        width: 158,
+        height: 258,
+    });
+
+    let layer = new Konva.Layer();
+    stage.add(layer);
+
+    const MAX_WIDTH = 150;
+    let textNode = new Konva.Text();
+
+    function addText() {
+        $("#editorTextModal").modal("hide");
+        stage.add(layer);
+
+        textNode.setAttrs({
+            x: 5,
+            y: 20,
+            width: 140,
+            fontSize: 22,
+            align: "center",
+            text: $("#textContent").val() || "Type your text",
+            draggable: true,
+            dragBoundFunc: function (pos) {
+                let newX = pos.x < 0 ? 0 : pos.x && pos.x > 16 ? 16 : pos.x;
+                let newY = pos.y < 0 ? 0 : pos.y && pos.y > stage.height() - textNode.height() ? stage.height() - textNode.height() : pos.y;
+                return { x: newX, y: newY };
+            },
+        });
+
+        layer.add(textNode);
+
+        let tr = new Konva.Transformer({
+            nodes: [textNode],
+            keepRatio: true,
+            enabledAnchors: ["top-left", "top-right", "bottom-left", "bottom-right"],
+            boundBoxFunc: function (oldBoundBox, newBoundBox) {
+                if (Math.abs(newBoundBox.width) > MAX_WIDTH) {
+                    return oldBoundBox;
+                }
+                return newBoundBox;
+            },
+        });
+
+        textNode.on("transform", function () {
+            textNode.setAttrs({
+                width: textNode.width() * textNode.scaleX(),
+                scaleX: 1,
+            });
+        });
+
+        layer.add(tr);
+        layer.draw();
+    }
+
+    function clearCanvas() {
+        layer.destroy();
+        layer = new Konva.Layer();
+        stage.add(layer);
+    }
+
+    $(document).ready(function () {
+        $("#colorDrawer").html(drawColors());
+
+        $("#rotate").click(function () {
+            let previewElement = $("#preview");
+            let width = previewElement.width();
+            let height = previewElement.height();
+            let newWidth = height;
+            let newHeight = width;
+            previewElement.width(newWidth);
+            previewElement.height(newHeight);
+            stage.width(newWidth);
+            stage.height(newHeight);
+            stage.draw();
+        });
+
+        $(".color-preview").click(function () {
+            if (tShirtOrTextColor === "text") {
+                textNode.fill($(this).css("background-color"));
+                layer.draw();
+            } else {
+                $("#preview").css("background-color", $(this).css("background-color"));
+            }
+            $("#colorModal").modal("hide");
+        });
+
+        $("#color").click(function () {
+            tShirtOrTextColor = "tshirt";
+            $("#colorModal").modal("show");
+        });
+
+        $("#addingText").click(function () {
+            $("#editorTextModal").modal("show");
+        });
+
+        $("#drawText").click(function () {
+            addText();
+        });
+
+        $("#delete").click(function () {
+            clearCanvas();
+        });
+
+        $("#download-image").click(function () {
+            stage.toDataURL({
+                callback: function (dataUrl) {
+                    let link = document.createElement("a");
+                    link.download = "tshirt_design.png";
+                    link.href = dataUrl;
+                    link.click();
+                },
+            });
+        });
+
+        $("#file-select").change(function () {
+            let file = this.files[0];
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                let img = new Image();
+                img.onload = function () {
+                    let imgNode = new Konva.Image({
+                        x: 50,
+                        y: 50,
+                        image: img,
+                        width: img.width * 0.25,
+                        height: img.height * 0.25,
+                        draggable: true,
+                    });
+
+                    let group = new Konva.Group({
+                        x: 0,
+                        y: 0,
+                        draggable: true,
+                    });
+                    layer.add(group);
+                    group.add(imgNode);
+
+                    addAnchor(group, 0, 0, "topLeft");
+                    addAnchor(group, img.width * 0.25, 0, "topRight");
+                    addAnchor(group, img.width * 0.25, img.height * 0.25, "bottomRight");
+                    addAnchor(group, 0, img.height * 0.25, "bottomLeft");
+
+                    layer.draw();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+</script>
   </body>
 </html>
