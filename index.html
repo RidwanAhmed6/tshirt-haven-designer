@@ -115,20 +115,22 @@
 
 
 
-  <div class="modal fade" id="orderFormModal" tabindex="-1" aria-labelledby="orderFormLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="orderFormLabel">Order Form</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- Order Form Modal -->
+<div class="modal fade" id="orderFormModal" tabindex="-1" aria-labelledby="orderFormLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderFormLabel">Order Form</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          <img id="customizedTshirtPreview" src="" alt="Customized T-shirt Preview" class="img-fluid mb-3">
         </div>
-        <div class="modal-body">
-          <div class="text-center">
-            <img id="customizedTshirtPreview" src="" alt="Customized T-shirt Preview" class="img-fluid mb-3">
-          </div>
-          <form id="orderForm">
-            <div class="mb-3">
-            <label for="quantity" class="form-label">Quantity (minimum 10)</label>
+        <form id="orderForm">
+          <!-- Form fields for quantity, color, size, etc. -->
+          <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity (Minimum 10)</label>
             <input type="number" class="form-control" id="quantity" name="quantity" min="10" required>
           </div>
           <div class="mb-3">
@@ -137,7 +139,7 @@
           </div>
           <div class="mb-3">
             <label for="size" class="form-label">Size</label>
-            <select multiple class="form-control" id="size" name="size[]" required>
+            <select class="form-select" id="size" name="size" multiple required>
               <option value="S">S</option>
               <option value="M">M</option>
               <option value="L">L</option>
@@ -149,37 +151,31 @@
             <input type="text" class="form-control" id="name" name="name" required>
           </div>
           <div class="mb-3">
-            <label for="mobileNumber" class="form-label">Mobile Number</label>
-            <input type="text" class="form-control" id="mobileNumber" name="mobileNumber" required>
+            <label for="mobile" class="form-label">Mobile Number</label>
+            <input type="text" class="form-control" id="mobile" name="mobile" required>
           </div>
           <div class="mb-3">
             <label for="address" class="form-label">Address</label>
-            <input type="text" class="form-control" id="address" name="address" required>
+            <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
           </div>
           <div class="mb-3">
             <label for="note" class="form-label">Note</label>
-            <textarea class="form-control" id="note" name="note"></textarea>
+            <textarea class="form-control" id="note" name="note" rows="3"></textarea>
           </div>
-          <div class="mb-3">
-            <label for="price" class="form-label">Per Product Price: 120 Taka</label>
-          </div>
-          <div class="mb-3">
-            <label for="totalPrice" class="form-label">Total Price</label>
-            <input type="text" class="form-control" id="totalPrice" name="totalPrice" readonly>
-          </div>
-        
-            <button type="submit" class="btn btn-success mt-3">Send Order</button>
-          </form>
-        </div>
+          <button type="submit" class="btn btn-success">Send Order</button>
+        </form>
       </div>
     </div>
   </div>
+</div>
+
 
 
     <div class="spinner-grow" role="status" style="display: none">
       <span class="visually-hidden">Loading...</span>
     </div>
-<canvas id="canvas" width="500" height="500" style="display:block;"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
