@@ -181,50 +181,5 @@
     <script src="https://cdn.jsdelivr.net/npm/fabric@4.5.0/dist/fabric.min.js"></script>
     <script src="./js/editor.js"></script>
 
-    <script>
-        // Download Design Button Functionality
-        document.getElementById('design-download').addEventListener('click', function () {
-            const canvas = document.querySelector('#canvas');
-            const link = document.createElement('a');
-            link.href = canvas.toDataURL('image/png');
-            link.download = 'tshirt_design.png';
-            link.click();
-        });
-
-        // Send Order Button Functionality
-        document.getElementById('sendOrderButton').addEventListener('click', function () {
-            const designImage = document.getElementById('frontImage').src;
-            const quantity = document.getElementById('quantityInput').value;
-            const name = document.getElementById('nameInput').value;
-            const mobile = document.getElementById('mobileInput').value;
-            const address = document.getElementById('addressInput').value;
-            const note = document.getElementById('noteInput').value;
-
-            const formData = new FormData();
-            formData.append('entry.1234567890', designImage); // Replace with your Google Form field ID for design image
-            formData.append('entry.0987654321', quantity); // Replace with your Google Form field ID for quantity
-            formData.append('entry.1112131415', name); // Replace with your Google Form field ID for name
-            formData.append('entry.1213141516', mobile); // Replace with your Google Form field ID for mobile
-            formData.append('entry.1314151617', address); // Replace with your Google Form field ID for address
-            formData.append('entry.1415161718', note); // Replace with your Google Form field ID for note
-
-            fetch('https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Order sent successfully!');
-                    bootstrap.Modal.getInstance(document.getElementById('shippingDetailsModal')).hide();
-                } else {
-                    throw new Error('Failed to send order');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error sending order.');
-            });
-        });
-    </script>
 </body>
 </html>
