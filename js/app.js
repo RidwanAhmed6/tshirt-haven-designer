@@ -4,25 +4,11 @@ let colors = `
 <ul class="list-group">
 <li class="list-group-item color-preview"  title="White" style="background-color:#ffffff;"></li>
 
-<li class="list-group-item color-preview" title="Gray" style="background-color:#f0f0f0;"></li>
-<li class="list-group-item color-preview" title="Charcoal" style="background-color:#5b5b5b;"></li>
-<li class="list-group-item color-preview"  title="Black" style="background-color:#222222;"></li>
-<li class="list-group-item color-preview"  title="Heather Orange" style="background-color:#fc8d74;"></li>
-<li class="list-group-item color-preview"  title="Heather Dark Chocolate" style="background-color:#432d26;"></li>
-<li class="list-group-item color-preview"  title="Salmon" style="background-color:#eead91;"></li>
-<li class="list-group-item color-preview"  title="Chesnut" style="background-color:#806355;"></li>
-<li class="list-group-item color-preview"  title="Dark Chocolate" style="background-color:#382d21;"></li>
-<li class="list-group-item color-preview"  title="Citrus Yellow" style="background-color:#faef93;"></li>
-<li class="list-group-item color-preview"  title="Avocado" style="background-color:#aeba5e;"></li>
-<li class="list-group-item color-preview"  title="Kiwi" style="background-color:#8aa140;"></li>
-<li class="list-group-item color-preview"  title="Irish Green" style="background-color:#1f6522;"></li>
-<li class="list-group-item color-preview"  title="Scrub Green" style="background-color:#13afa2;"></li>
-<li class="list-group-item color-preview"  title="Teal Ice" style="background-color:#b8d5d7;"></li>
-<li class="list-group-item color-preview"  title="Heather Sapphire" style="background-color:#15aeda;"></li>
-<li class="list-group-item color-preview"  title="Sky" style="background-color:#a5def8;"></li>
-<li class="list-group-item color-preview"  title="Antique Sapphire" style="background-color:#0f77c0;"></li>
-<li class="list-group-item color-preview" title="Heather Navy" style="background-color:#3469b7;"></li>							
-<li class="list-group-item color-preview"  title="Cherry Red" style="background-color:#c50404;"></li>
+<li class="list-group-item color-preview" title="Pest" style="background-color:#0dfbcc;"></li>
+<li class="list-group-item color-preview" title="Pink" style="background-color:#ff99cd;"></li>
+<li class="list-group-item color-preview"  title="Light Yellow" style="background-color:#fffe99;"></li>
+<li class="list-group-item color-preview"  title="Sky Blue" style="background-color:#99d3ff;"></li>
+
 </ul>
 `;
 
