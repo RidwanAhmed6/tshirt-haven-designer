@@ -1,0 +1,101 @@
+:root {
+    --w: 32em;
+    --h: 5em;
+    --b: .5em;
+    --p: .125em;
+    --d: calc(var(--h) - 2 * var(--b));
+    --f0: 5;
+    --f1: 4;
+    --lh: 1.375;
+}
+
+*, :before, :after {
+    box-sizing: inherit;
+    margin: 0;
+}
+
+html {
+    --i: var(--wide, 1);
+    --ci: calc(1 - var(--i));
+    background: whitesmoke;
+}
+
+@media (max-width: 775px) {
+    html { --wide: 0; }
+}
+
+@media (max-width: 250px) {
+    html { font-size: .75em; }
+}
+
+@media (max-width: 185px) {
+    html { font-size: .5em; }
+}
+
+body {
+    filter: drop-shadow(0 calc(2 * var(--b)) calc(2 * var(--b)) rgba(0, 0, 0, .2));
+}
+
+.custom-article {
+    --d: calc(var(--i) * var(--d) + var(--ci) * var(--lh) * 1em);
+    box-sizing: border-box;
+    display: grid;
+    grid-gap: 0px calc(var(--i) * var(--h));
+    grid-template: repeat(2, max-content) / var(--d) 1fr;
+    position: relative;
+    margin: 1em auto;
+    border: solid var(--b) transparent;
+    padding: var(--p);
+    width: calc(var(--i) * var(--w) + var(--ci) * 100%);
+    min-height: var(--h);
+    border-radius: calc(var(--i) * calc(.5 * var(--h)));
+    background: radial-gradient(circle at 0 calc(2 * var(--h)), rgba(0, 0, 0, calc(var(--i) * .8)) calc(.5 * var(--h)), transparent calc(2.25 * var(--h))) border-box,
+                linear-gradient(#dbdbdb, #fff) content-box,
+                linear-gradient(var(--slist)) padding-box,
+                linear-gradient(#fff, #dcdcdc) border-box;
+    font: 1.5em / var(--lh) trebuchet ms, verdana, sans-serif;
+    clip-path: var(--wide, inset(0 round calc(.5 * var(--h))));
+    counter-increment: c;
+}
+
+.custom-article:before {
+    position: absolute;
+    top: calc(-1 * var(--b));
+    left: calc(-1 * var(--b));
+    width: calc(var(--h) + var(--d) + var(--b));
+    height: calc(var(--i) * var(--h));
+    transform-origin: 100% 100%;
+    transform: skewX(45deg);
+    box-shadow: 0 0 7px rgba(0, 0, 0, .1);
+    background: linear-gradient(#fff, #e4e4e4);
+    content: var(--wide, '');
+}
+
+.custom-article:after {
+    display: grid;
+    place-content: center;
+    grid-row: 1 / span calc(1 + var(--i));
+    position: relative;
+    border: solid calc(var(--i) * var(--b)) transparent;
+    margin: calc(var(--i) * calc(-1 * var(--p)) + var(--ci) * .25rem);
+    width: var(--d);
+    height: var(--d);
+    border-radius: 50%;
+    box-shadow: inset 0 0 1px 1px #efefef, inset 0 calc(-1 * var(--b)) rgba(0, 0, 0, .1);
+    background: linear-gradient(var(--slist)) padding-box, linear-gradient(#d0d0d0, #e7e7e7) border-box;
+    color: #fff;
+    text-align: center;
+    content: counter(c, decimal-leading-zero);
+}
+
+.custom-article h3, .custom-article p {
+    padding: 0 .5rem;
+}
+
+.custom-article h3 {
+    font-size: calc(var(--f0) / var(--f1) * 1em);
+}
+
+.custom-article p {
+    grid-column: var(--ci) / span calc(1 + var(--ci));
+}
