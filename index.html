@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Web App</title>
-    <link rel="stylesheet" href="footer.css">
+    <title>T Shirt Store</title>
     <style>
         iframe {
             width: 100%;
@@ -15,33 +14,5 @@
 </head>
 <body>
     <iframe src="https://script.google.com/macros/s/AKfycbzFn5i0l-5AYaNIb4819WnbdiWEOVh_MJ_Z6OGf4BFrJL_BP3SdirFaZ3pkCQ4t4_Iy/exec" allowfullscreen></iframe>
-     <script>
-        const data = [
-            { slist: ['#ebac79', '#d65b56'], title: 'gingerbread', ptext: 'Pancake muffin chocolate syrup brownie.' },
-            { slist: ['#90cbb7', '#2fb1a9'], title: 'brownie', ptext: 'Cake lemon berry muffin plum macaron.' },
-            { slist: ['#8a7876', '#32201c'], title: 'ice cream', ptext: 'Wafer apple tart pie muffin gingerbread.' },
-            { slist: ['#a6c869', '#37a65a'], title: 'lava cake', ptext: 'Liquorice plum topping chocolate lemon.' }
-        ].reverse();
-        
-        const container = document.createElement('div');
-        
-        data.forEach(item => {
-            const article = document.createElement('article');
-            article.classList.add('custom-article');
-            article.style.setProperty('--slist', item.slist.join(', '));
-            
-            const h3 = document.createElement('h3');
-            h3.textContent = item.title;
-            
-            const p = document.createElement('p');
-            p.textContent = item.ptext;
-            
-            article.appendChild(h3);
-            article.appendChild(p);
-            container.appendChild(article);
-        });
-        
-        document.body.appendChild(container);
-    </script>
 </body>
 </html>
